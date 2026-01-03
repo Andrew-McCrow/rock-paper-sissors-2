@@ -1,61 +1,55 @@
-humanScore = 0;
-computerScore = 0;
+let humanScore = 0;
+let computerScore = 0;
 
+const humanScoreDisplay = document.getElementById("human-score");
+const computerScoreDisplay = document.getElementById("computer-score");
+
+function updateScoreboard() {
+    humanScoreDisplay.textContent = humanScore;
+    computerScoreDisplay.textContent = computerScore;
+}
+
+// result is the div where we will display results
+const result = document.getElementById("result");
+
+// Function to get computer choice
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];  
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];      
-}
+}  
 
-function getHumanChoice()
-{
-    let input = prompt("Do you choose rock, paper or scissors?");
-    input = input.toLowerCase();
-    if (input === 'rock' || input === 'paper' || input === 'scissors') {
-        return input;
-    } else {
-        console.log("Invalid choice. Please choose rock, paper, or scissors.");
-        return getHumanChoice();
-    }
-}   
-
+// Function to play a round given a "humanChoice" and "computerChoice"
 function playRound(humanChoice, computerChoice) {
+    const para = document.createElement("p"); // Create a new paragraph element to display the result
+
     if (humanChoice === computerChoice) {
-        return "It's a tie!";
-    } 
-    else if (
+        para.textContent = "The game is a tie!";
+    } else if (
         (humanChoice === 'rock' && computerChoice === 'scissors') ||
         (humanChoice === 'paper' && computerChoice === 'rock') ||
         (humanChoice === 'scissors' && computerChoice === 'paper')
     ) {
         humanScore++;
-        return `You win! ${humanChoice} beats ${computerChoice}.`;
+        para.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
     } 
     else {
         computerScore++;
-        return `You lose! ${computerChoice} beats ${humanChoice}.`;
+        para.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
     }
+
+    updateScoreboard();
+    result.appendChild(para); // Append the result to the result div
 }
 
-function playGame() {
-    for (let round = 1; round <= 5; round++) {
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-        console.log(`Round ${round}:`);
-        console.log(playRound(humanChoice, computerChoice));
-        console.log(`Score - You: ${humanScore}, Computer: ${computerScore}`);
-    }
 
-    if (humanScore > computerScore) {
-        console.log("Congratulations! You won the game!");
-    } else if (computerScore > humanScore) {
-        console.log("Sorry! The computer won the game.");
-    } else {
-        console.log("The game is a tie!");
-    }
-}
+// buttons is a node list. It looks and acts much like an array.
+const buttons = document.querySelectorAll("button");
 
-playGame();
-
-// console.log(getComputerChoice());
-//console.log(getHumanChoice());
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) => {
+  // and for each one we add a 'click' listener
+  button.addEventListener("click", () => {
+    playRound(button.id, getComputerChoice());
+  });
+});

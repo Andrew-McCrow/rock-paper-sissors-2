@@ -1,3 +1,4 @@
+// keeps track of scores and displays them on UI
 let humanScore = 0;
 let computerScore = 0;
 
@@ -9,10 +10,10 @@ function updateScoreboard() {
     computerScoreDisplay.textContent = computerScore;
 }
 
-// result is the div where we will display results
+// result is the div where we will display the game results
 const result = document.getElementById("result");
 
-// buttons is a node list. It looks and acts much like an array.
+// buttons is a node list. It looks and acts much like an array of the buttons.
 const buttons = document.querySelectorAll("button");
 
 // Function to get computer choice

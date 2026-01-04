@@ -12,6 +12,9 @@ function updateScoreboard() {
 // result is the div where we will display results
 const result = document.getElementById("result");
 
+// buttons is a node list. It looks and acts much like an array.
+const buttons = document.querySelectorAll("button");
+
 // Function to get computer choice
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];  
@@ -22,29 +25,44 @@ function getComputerChoice() {
 // Function to play a round given a "humanChoice" and "computerChoice"
 function playRound(humanChoice, computerChoice) {
     const para = document.createElement("p"); // Create a new paragraph element to display the result
+    if (humanScore >= 5){ 
 
-    if (humanChoice === computerChoice) {
-        para.textContent = "The game is a tie!";
-    } else if (
-        (humanChoice === 'rock' && computerChoice === 'scissors') ||
-        (humanChoice === 'paper' && computerChoice === 'rock') ||
-        (humanChoice === 'scissors' && computerChoice === 'paper')
-    ) {
-        humanScore++;
-        para.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
-    } 
-    else {
-        computerScore++;
-        para.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
+        para.textContent = "You WIN! You have already won 5 times. Refresh the page to play again.";
+        result.appendChild(para);
+        buttons.forEach((button) => {
+            button.disabled = true; // Disable all buttons
+        })
     }
 
-    updateScoreboard();
-    result.appendChild(para); // Append the result to the result div
+    else if (computerScore >= 5){
+
+        para.textContent = "You LOSE! The computer has already won 5 times. Refresh the page to play again.";
+        result.appendChild(para);
+        buttons.forEach((button) => {
+            button.disabled = true; // Disable all buttons
+        })
+    }
+
+    else {
+        if (humanChoice === computerChoice) {
+            para.textContent = "The game is a tie!";
+        } else if (
+            (humanChoice === 'rock' && computerChoice === 'scissors') ||
+            (humanChoice === 'paper' && computerChoice === 'rock') ||
+            (humanChoice === 'scissors' && computerChoice === 'paper')
+        ) {
+            humanScore++;
+            para.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
+        } 
+        else {
+            computerScore++;
+            para.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
+        }
+
+        updateScoreboard();
+        result.appendChild(para); // Append the result to the result div
+    }
 }
-
-
-// buttons is a node list. It looks and acts much like an array.
-const buttons = document.querySelectorAll("button");
 
 // we use the .forEach method to iterate through each button
 buttons.forEach((button) => {
